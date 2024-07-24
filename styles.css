@@ -49,14 +49,20 @@ h6 {
   justify-content: center;
 }
 
-.numbers {
+.screen {
   background-color: antiquewhite;
   height: 300px;
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
   align-items: end;
   font-size: 80px;
   padding-right: 20px;
+}
+
+.numbers {
+  font-size: 45px;
+  margin-bottom: 20px;
 }
 
 .buttons {
@@ -73,6 +79,10 @@ h6 {
   align-items: center;
   border: 1px solid black;
   font-size: 30px;
+}
+
+.highlight {
+  background-color: yellow;
 }
 
 .zero {

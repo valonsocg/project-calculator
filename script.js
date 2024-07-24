@@ -1,100 +1,99 @@
-function add(a, b) {
-  return a + b;
-}
+let operand1 = 0;
+let operand2 = 0;
+let operator = "";
 
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function operate(num1, operator, num2) {
+function operate() {
   switch (operator) {
     case "+":
-      return add(num1, num2);
+      operand1 = +operand1 + +operand2;
+      break;
     case "-":
-      return subtract(num1, num2);
+      operand1 = operand1 - operand2;
+      break;
     case "*":
-      return multiply(num1, num2);
+      operand1 = operand1 * operand2;
+      break;
     case "/":
-      return divide(num1, num2);
-    default:
-      return null;
+      operand1 = operand1 / operand2;
+      break;
   }
+  operator = "";
+  operand2 = 0;
+  updateUi();
 }
 
-let currentInput = "";
-let num1 = null;
-let operator = null;
-let num2 = null;
+function operation(op) {
+  if (operator) {
+    operate();
+  }
+  operator = op;
+  operand1 = operand2 === 0 ? operand1 : operand2;
+  operand2 = 0;
 
-const buttons = document.querySelectorAll(".button");
-const screen = document.querySelector(".numbers");
+  updateUi();
+}
 
-buttons.forEach((button) => {
+function clear() {
+  operand1 = 0;
+  operand2 = 0;
+  operator = "";
+  updateUi();
+}
+
+function updateUi() {
+  operand1Element.textContent = operand1 + operator;
+  operand2Element.textContent = operand2;
+}
+
+function appendNumber(num) {
+  if (num === "." && operand2.includes(".")) return;
+  operand2 = operand2 === 0 ? num : operand2 + num;
+  updateUi();
+}
+
+function minusOperand() {
+  operand2 = operand2 * -1;
+  updateUi();
+}
+
+function percent() {
+  operand2 = operand2 / 100;
+  updateUi();
+}
+
+const operand1Element = document.querySelector(".numbers");
+const operand2Element = document.querySelector(".numbers2");
+const dataClear = document.querySelector("#ac");
+const numberButton = document.querySelectorAll(".number");
+const minus = document.querySelector("#minus");
+const percentil = document.querySelector("#percent");
+const operators = document.querySelectorAll(".operator");
+const equals = document.querySelector("#equals");
+
+dataClear.addEventListener("click", () => {
+  clear();
+});
+
+numberButton.forEach((button) => {
   button.addEventListener("click", () => {
-    const value = button.getAttribute("value");
-
-    if (value === "AC") {
-      currentInput = "";
-      num1 = null;
-      num2 = null;
-      operator = null;
-      screen.textContent = "";
-      return;
-    }
-    if (value === "+/-") {
-      currentInput = currentInput
-        ? (parseFloat(currentInput) * -1).toString()
-        : "";
-      screen.textContent = currentInput;
-      return;
-    }
-    if (value === "%") {
-      currentInput = currentInput
-        ? parseFloat(currentInput).toString() / 100
-        : "";
-      screen.textContent = currentInput;
-      return;
-    }
-    if (["/", "*", "-", "+"].includes(value)) {
-      if (num1 === null && currentInput !== "") {
-        num1 = parseFloat(currentInput);
-        operator = value;
-        currentInput = "";
-        screen.textContent = `${num1} ${operator}`;
-      } else if (num1 !== null && currentInput !== "") {
-        num2 = parseFloat(currentInput);
-        const result = operate(num1, operator, num2);
-        num1 = result;
-        operator = value;
-        currentInput = "";
-        screen.textContent = `${num1} ${operator}`;
-      }
-      return;
-    }
-    if (value === "=") {
-      if (num1 !== null && operator !== null && currentInput !== "") {
-        num2 = parseFloat(currentInput);
-        const result = operate(num1, operator, num2);
-        screen.textContent = `${result}`;
-        num1 = result;
-        operator = null;
-        currentInput = "";
-      }
-      return;
-    }
-    currentInput += value;
-    if (operator === null) {
-      screen.textContent = currentInput;
-    } else {
-      screen.textContent = `${num1} ${operator} ${currentInput}`;
-    }
+    appendNumber(button.getAttribute("value"));
   });
+});
+
+minus.addEventListener("click", () => {
+  minusOperand();
+});
+
+percentil.addEventListener("click", () => {
+  percent();
+});
+
+operators.forEach((button) => {
+  button.addEventListener("click", () => {
+    operation(button.getAttribute("value"));
+  });
+});
+
+equals.addEventListener("click", () => {
+  operate();
 });
