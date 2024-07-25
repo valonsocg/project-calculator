@@ -14,9 +14,16 @@ body {
   align-items: center;
   height: 100vh;
   background: linear-gradient(135deg, #6d5dc6, #b3b6f2);
-  color: white;
+  color: #ffffffda;
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 60px;
+  text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+  padding-right: 5px;
+}
 .calculator-container {
   background: #333;
   border-radius: 20px;
