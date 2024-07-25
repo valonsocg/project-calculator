@@ -56,8 +56,12 @@ function minusOperand() {
   updateUi();
 }
 
-function percent() {
-  operand2 = operand2 / 100;
+function deleteLast() {
+  if (operand2.length > 1) {
+    operand2 = operand2.slice(0, -1);
+  } else {
+    operand2 = 0;
+  }
   updateUi();
 }
 
@@ -66,7 +70,7 @@ const operand2Element = document.querySelector(".numbers2");
 const dataClear = document.querySelector("#ac");
 const numberButton = document.querySelectorAll(".number");
 const minus = document.querySelector("#minus");
-const percentil = document.querySelector("#percent");
+const deleteSel = document.querySelector("#delete");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector("#equals");
 
@@ -84,8 +88,8 @@ minus.addEventListener("click", () => {
   minusOperand();
 });
 
-percentil.addEventListener("click", () => {
-  percent();
+deleteSel.addEventListener("click", () => {
+  deleteLast();
 });
 
 operators.forEach((button) => {
