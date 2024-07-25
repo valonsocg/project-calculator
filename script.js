@@ -47,7 +47,7 @@ function updateUi() {
 
 function appendNumber(num) {
   if (num === "." && operand2.includes(".")) return;
-  operand2 = operand2 === 0 ? num : operand2 + num;
+  operand2 = +operand2 === 0 ? num : operand2 + num;
   updateUi();
 }
 
@@ -100,4 +100,27 @@ operators.forEach((button) => {
 
 equals.addEventListener("click", () => {
   operate();
+});
+
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  if (!isNaN(key) || key === ".") {
+    appendNumber(key);
+  } else if (key === "+") {
+    operation("+");
+  } else if (key === "-") {
+    operation("-");
+  } else if (key === "*") {
+    operation("*");
+  } else if (key === "/") {
+    operation("/");
+  } else if (key === "Enter") {
+    operate();
+  } else if (key === "Escape") {
+    clear();
+  } else if (key === "Backspace") {
+    deleteLast();
+  } else if (key === "m") {
+    minusOperand();
+  }
 });
